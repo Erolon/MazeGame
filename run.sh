@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 pip3 show colorama
 if ! [ $? == 0 ]; then
