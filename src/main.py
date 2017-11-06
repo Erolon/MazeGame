@@ -115,7 +115,7 @@ def play(current_level):
     # Game loop
     gameRunning = True
     while (gameRunning):
-        # os.system("clear")
+        os.system("clear")
         print(message)
         drawMap(player, mapList, data_holder)
         print("> ")
