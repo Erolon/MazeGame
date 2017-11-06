@@ -168,17 +168,14 @@ def play(current_level):
                 play(current_level + 1)
 
 def playerMovement(dX, dY, data_holder, player, mapList):
-    print(player.location.x + dX)
-    print(player.location.y + dY)
-    print(mapList[player.location.y + dY][player.location.x + dX].char)
-    if isLeverAtPoint(player.location.x + dX, player.location.y + dY, data_holder.levers):
-        lever = getLeverAtPoint(player.location.x + dX, player.location.y + dY, data_holder.levers)
+    newX = player.location.x + dX
+    newY = player.location.y + dY
+    if isLeverAtPoint(newX, newY, data_holder.levers):
+        lever = getLeverAtPoint(newX, newY, data_holder.levers)
         data_holder.doors[lever.id - 1].switch()
-    elif (mapList[player.location.y + dY][player.location.x + dY].passable) and \
-                    not isClosedDoorAtPoint(player.location.x + dX, player.location.y + dY, data_holder.doors):
-        player.location.x += dX
-        player.location.y += dY
-    # tähän
+    elif (mapList[newY][newX].passable) and not isClosedDoorAtPoint(newX, newY, data_holder.doors):
+        player.location.x = newX
+        player.location.y = newY
 
 def help():
     os.system("clear")
