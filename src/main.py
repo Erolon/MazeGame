@@ -12,7 +12,7 @@ from colorama import init, Fore, Back, Style
 import os
 
 message = ""
-level_number = 6
+level_number = 5
 
 def isLevelCompleted(mapList, player):
     if mapList[player.location.y][player.location.x].char == GOAL_CHAR:
@@ -140,26 +140,11 @@ def play(current_level):
         elif ch == 's':
             playerMovement(0, 1, data_holder, player, mapList)
         elif ch == 'w':
-            if isLeverAtPoint(player.location.x, player.location.y - 1, data_holder.levers):
-                lever = getLeverAtPoint(player.location.x, player.location.y - 1, data_holder.levers)
-                data_holder.doors[lever.id - 1].switch()
-            elif (mapList[player.location.y - 1][player.location.x].passable) and \
-                    not isClosedDoorAtPoint(player.location.x, player.location.y - 1, doors):
-                player.location.y -= 1
+            playerMovement(0, -1, data_holder, player, mapList)
         elif ch == 'a':
-            if isLeverAtPoint(player.location.x - 1, player.location.y, data_holder.levers):
-                lever = getLeverAtPoint(player.location.x - 1, player.location.y, data_holder.levers)
-                data_holder.doors[lever.id - 1].switch()
-            elif (mapList[player.location.y][player.location.x - 1].passable) and \
-                    not isClosedDoorAtPoint(player.location.x - 1, player.location.y, data_holder.doors):
-                player.location.x -= 1
+            playerMovement(-1, 0, data_holder, player, mapList)
         elif ch == 'd':
-            if isLeverAtPoint(player.location.x + 1, player.location.y, data_holder.levers):
-                lever = getLeverAtPoint(player.location.x + 1, player.location.y, data_holder.levers)
-                data_holder.doors[lever.id - 1].switch()
-            elif (mapList[player.location.y][player.location.x + 1].passable) and \
-                    not isClosedDoorAtPoint(player.location.x + 1, player.location.y, data_holder.doors):
-                player.location.x += 1
+           playerMovement(1, 0, data_holder, player, mapList)
 
         if isLevelCompleted(mapList, player):
             if current_level == level_number:
