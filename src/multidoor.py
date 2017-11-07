@@ -9,6 +9,7 @@ class MultiDoor:
             self.passable = True
         self.id = id
         self.isOpen = isOpen
+        self.levers_needed = levers_needed
     def switch(self):
         self.isOpen = not self.isOpen
         if not self.isOpen:

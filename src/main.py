@@ -12,7 +12,7 @@ from colorama import init, Fore, Back, Style
 import os
 
 message = ""
-level_number = 5
+level_number = 6
 
 def isLevelCompleted(mapList, player):
     if mapList[player.location.y][player.location.x].char == GOAL_CHAR:
@@ -75,7 +75,7 @@ def play(current_level):
                 leverNumber = int(values[0].split('-')[1])
                 x = int(values[1].split(',')[0])
                 y = int(values[1].split(',')[1])
-                data_holder.levers.append(Lever(Point2D(x, y), 'L', False, leverNumber)) # The items must be in order in the file
+                data_holder.levers.append(Lever(Point2D(x, y), LEVER_CHAR, False, leverNumber)) # The items must be in order in the file
             elif line.startswith("door"): #door-1=6,4
                 values = line.split('=')
                 doorNumber = int(values[0].split('-')[1])
@@ -93,7 +93,7 @@ def play(current_level):
                 number = int(line.split('-')[1].split('=')[0])
                 x = int(line.split('=')[1].split(',')[0])
                 y = int(line.split('=')[1].split(',')[1])
-                data_holder.multi_levers.append(MultiLever(Point2D(x, y), LEVER_CHAR, False, id, number))
+                data_holder.multi_levers.append(MultiLever(Point2D(x, y), 'M', False, id, number)) # temporary
             elif line.startswith("multi_door"):
                 id = int(line.split('-')[0].split('.')[1])
                 x = int(line.split('=')[1].split(',')[0])
@@ -155,12 +155,12 @@ def play(current_level):
 def playerMovement(dX, dY, data_holder, player, mapList):
     newX = player.location.x + dX
     newY = player.location.y + dY
-    if isLeverAtPoint(newX, newY, data_holder.levers):
-        lever = getLeverAtPoint(newX, newY, data_holder.levers)
-        data_holder.doors[lever.id - 1].switch()
-    elif isLeverAtPoint(newX, newY, data_holder.multi_levers):
+    # if isLeverAtPoint(newX, newY, data_holder.levers):
+    #    lever = getLeverAtPoint(newX, newY, data_holder.levers)
+    #    data_holder.doors[lever.id - 1].switch()
+    if isLeverAtPoint(newX, newY, data_holder.multi_levers):
         lever = getLeverAtPoint(newX, newY, data_holder.multi_levers)
-        data_holder.multi_doors[lever.id - 1].levers_needed[lever.number - 1] = 0
+        data_holder.multi_doors[lever.id - 1].levers_needed[lever.number] = 0 # breaks
     elif (mapList[newY][newX].passable) and not isClosedDoorAtPoint(newX, newY, data_holder.doors):
         player.location.x = newX
         player.location.y = newY
