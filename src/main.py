@@ -158,6 +158,9 @@ def playerMovement(dX, dY, data_holder, player, mapList):
     if isLeverAtPoint(newX, newY, data_holder.levers):
         lever = getLeverAtPoint(newX, newY, data_holder.levers)
         data_holder.doors[lever.id - 1].switch()
+    elif isLeverAtPoint(newX, newY, data_holder.multi_levers):
+        lever = getLeverAtPoint(newX, newY, data_holder.multi_levers)
+        data_holder.multi_doors[lever.id - 1].levers_needed[lever.number - 1] = 0
     elif (mapList[newY][newX].passable) and not isClosedDoorAtPoint(newX, newY, data_holder.doors):
         player.location.x = newX
         player.location.y = newY
