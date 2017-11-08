@@ -161,6 +161,7 @@ def playerMovement(dX, dY, data_holder, player, mapList):
         data_holder.doors[lever.id - 1].switch()
     elif isLeverAtPoint(newX, newY, data_holder.multi_levers):
         lever = getLeverAtPoint(newX, newY, data_holder.multi_levers)
+        lever.switch()
         data_holder.multi_doors[lever.id - 1].levers_needed[lever.number - 1] = 0
         levers_needed = data_holder.multi_doors[lever.id - 1].levers_needed
         if all(i is 0 for i in levers_needed):

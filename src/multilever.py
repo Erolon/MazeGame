@@ -5,3 +5,8 @@ class MultiLever:
         self.passable = passable
         self.id = id
         self.number = number
+    def switch(self):
+        if self.char == 'L':
+            self.char = 'l'
+        else:
+            self.char = 'L'
