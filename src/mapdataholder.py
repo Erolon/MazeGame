@@ -3,5 +3,5 @@ class MapDataHolder:
         self.levers = levers
         self.doors = doors
         self.flashing_walls = flashing_walls
-        self.multi_levers = levers
-        self.multi_doors = doors
+        self.multi_levers = multi_levers
+        self.multi_doors = multi_doors

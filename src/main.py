@@ -93,7 +93,7 @@ def play(current_level):
                 number = int(line.split('-')[1].split('=')[0])
                 x = int(line.split('=')[1].split(',')[0])
                 y = int(line.split('=')[1].split(',')[1])
-                data_holder.multi_levers.append(MultiLever(Point2D(x, y), 'M', False, id, number)) # temporary
+                data_holder.multi_levers.append(MultiLever(Point2D(x, y), LEVER_CHAR, False, id, number)) # temporary
             elif line.startswith("multi_door"):
                 id = int(line.split('-')[0].split('.')[1])
                 x = int(line.split('=')[1].split(',')[0])
@@ -155,12 +155,12 @@ def play(current_level):
 def playerMovement(dX, dY, data_holder, player, mapList):
     newX = player.location.x + dX
     newY = player.location.y + dY
-    # if isLeverAtPoint(newX, newY, data_holder.levers):
-    #    lever = getLeverAtPoint(newX, newY, data_holder.levers)
-    #    data_holder.doors[lever.id - 1].switch()
-    if isLeverAtPoint(newX, newY, data_holder.multi_levers):
+    if isLeverAtPoint(newX, newY, data_holder.levers):
+        lever = getLeverAtPoint(newX, newY, data_holder.levers)
+        data_holder.doors[lever.id - 1].switch()
+    elif isLeverAtPoint(newX, newY, data_holder.multi_levers):
         lever = getLeverAtPoint(newX, newY, data_holder.multi_levers)
-        data_holder.multi_doors[lever.id - 1].levers_needed[lever.number] = 0 # breaks
+        data_holder.multi_doors[lever.id - 1].levers_needed[lever.number] = 0
     elif (mapList[newY][newX].passable) and not isClosedDoorAtPoint(newX, newY, data_holder.doors):
         player.location.x = newX
         player.location.y = newY
@@ -196,6 +196,15 @@ def drawMap(player, mapList, data_holder):
                 if x == door.location.x and y == door.location.y and not wasPlayerAtLocation:
                     print(Fore.BLUE + Back.WHITE + door.char, end='')
                     wasOtherPrinted = True
+            for lever in data_holder.multi_levers:
+                if y == lever.location.y and x == lever.location.x:
+                    print(Fore.GREEN + Back.WHITE + lever.char, end='')
+                    wasOtherPrinted = True
+            for door in data_holder.multi_doors:
+                if x == door.location.x and y == door.location.y and not wasPlayerAtLocation:
+                    print(Fore.BLUE + Back.WHITE + door.char, end='')
+                    wasOtherPrinted = True
+
 
             if not wasOtherPrinted:
                 if x == width - 1:
