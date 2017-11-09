@@ -74,12 +74,15 @@ def play(current_level, message=""):
                 first = split[0]
                 second = split[1]
                 player.location = Point2D(int(first), int(second))
-            elif line.startswith("monster"):
+            elif line.startswith("monster"): # monster.1-2;1=5,3 # id, mf, speed
                 numbers = line.split('=')[1]
                 split = numbers.split(',')
                 x = int(split[0])
                 y = int(split[1])
-                data_holder.monsters.append(Monster(Point2D(x, y), 1, 2, 1, MONSTER_CHAR)) # read id and speed later
+                id = int(line.split('-')[0].split('.')[1])
+                moveFrequency = int(line.split(';')[0].split('-')[1])
+                speed = int(line.split('=')[0].split(';')[1])
+                data_holder.monsters.append(Monster(Point2D(x, y), speed, moveFrequency, id, MONSTER_CHAR))
             elif line.startswith("lever"): #lever-1=5,5
                 values = line.split('=')
                 leverNumber = int(values[0].split('-')[1])
@@ -98,7 +101,7 @@ def play(current_level, message=""):
                 x = int(line.split('=')[1].split(',')[0])
                 y = int(line.split('=')[1].split(',')[1])
                 data_holder.multi_levers.append(MultiLever(Point2D(x, y), LEVER_CHAR, False, id, number)) # temporary
-            elif line.startswith("multi_door"):
+            elif line.startswith("multi_door"): # multi_door.1-1+2+3=4,2
                 id = int(line.split('-')[0].split('.')[1])
                 x = int(line.split('=')[1].split(',')[0])
                 y = int(line.split('=')[1].split(',')[1])
