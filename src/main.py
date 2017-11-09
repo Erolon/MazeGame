@@ -176,7 +176,7 @@ def playerMovement(dX, dY, data_holder, player, mapList, current_level):
         levers_needed = data_holder.multi_doors[lever.id - 1].levers_needed
         if all(i is 0 for i in levers_needed):
             data_holder.multi_doors[lever.id - 1].switch()
-    elif (mapList[newY][newX].passable) and not isClosedDoorAtPoint(newX, newY, data_holder.doors):
+    elif (mapList[newY][newX].passable) and not isClosedDoorAtPoint(newX, newY, data_holder.doors) and not isClosedDoorAtPoint(newX, newY, data_holder.multi_doors):
         player.location.x = newX
         player.location.y = newY
     updateMonsters(data_holder, mapList, newX, newY)
@@ -261,7 +261,7 @@ def tileForChar(char):
         return Tile(char, False)
     elif char == EMPTY_CHAR or char == PLAYER_CHAR or char == GOAL_CHAR:
         return Tile(char, True)
-    elif char == MONSTER_AREA_CHAR:
+    elif char == MONSTER_AREA_CHAR or char == MONSTER_CHAR:
         return Tile(EMPTY_CHAR, True)
     elif char == LEVER_CHAR:
         return Tile(WALL_CHAR, False) # Return a wall
