@@ -12,7 +12,7 @@ from colorama import init, Fore, Back, Style
 import os
 
 message = ""
-level_number = 8
+level_number = 9
 
 def isLevelCompleted(mapList, player):
     if mapList[player.location.y][player.location.x].char == GOAL_CHAR:
@@ -74,15 +74,21 @@ def play(current_level, message=""):
                 first = split[0]
                 second = split[1]
                 player.location = Point2D(int(first), int(second))
-            elif line.startswith("monster"): # monster.1-2;1=5,3 # id, mf, speed
+            elif line.startswith("monster"): # monster.1-2;1:ground=5,3 # id, mf, speed
                 numbers = line.split('=')[1]
                 split = numbers.split(',')
                 x = int(split[0])
                 y = int(split[1])
                 id = int(line.split('-')[0].split('.')[1])
                 moveFrequency = int(line.split(';')[0].split('-')[1])
-                speed = int(line.split('=')[0].split(';')[1])
-                data_holder.monsters.append(Monster(Point2D(x, y), speed, moveFrequency, id, MONSTER_CHAR))
+                speed = int(line.split(':')[0].split(';')[1])
+                isFlying = 0
+                isFlyingString = line.split('=')[0].split(':')[1]
+                if isFlyingString = "fly":
+                    isFlying = True
+                elif isFlyingString = "ground":
+                    isFlying = False
+                data_holder.monsters.append(Monster(Point2D(x, y), speed, moveFrequency, isFlying, id, MONSTER_CHAR))
             elif line.startswith("lever"): #lever-1=5,5
                 values = line.split('=')
                 leverNumber = int(values[0].split('-')[1])
@@ -173,14 +179,14 @@ def playerMovement(dX, dY, data_holder, player, mapList, current_level):
     elif (mapList[newY][newX].passable) and not isClosedDoorAtPoint(newX, newY, data_holder.doors):
         player.location.x = newX
         player.location.y = newY
-    updateMonsters(data_holder, newX, newY)
+    updateMonsters(data_holder, mapList, newX, newY)
     for m in data_holder.monsters:
         if m.position.x == player.location.x and m.position.y == player.location.y:
             play(current_level, "You died!")
 
-def updateMonsters(data_holder, playerX, playerY):
+def updateMonsters(data_holder, mapList, playerX, playerY):
     for m in data_holder.monsters:
-        m.move(Point2D(playerX, playerY))
+        m.move(Point2D(playerX, playerY), mapList)
 
 def help():
     os.system("clear")
