@@ -263,8 +263,10 @@ def tileForChar(char):
         return Tile(char, True)
     elif char == LEVER_CHAR:
         return Tile(WALL_CHAR, False) # Return a wall
-    elif char == DOOR_CLOSED_CHAR or char == MONSTER_CHAR:
+    elif char == DOOR_CLOSED_CHAR:
         return Tile(EMPTY_CHAR, True) # Needs to be passable
+    elif char == MONSTER_CHAR:
+        return Tile(MONSTER_AREA_CHAR, True)
     else:
         print("found " + char)
 
