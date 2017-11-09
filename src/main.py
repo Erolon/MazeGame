@@ -234,7 +234,7 @@ def drawMap(player, mapList, data_holder):
 
             if not wasOtherPrinted:
                 if x == width - 1:
-                    print(Fore.RED + Back.RED + mapList[y][x].char + Fore.RESET + Back.RESET) # Always a wall
+                    print(Fore.RED + Back.RED + mapList[y][x].char) # Always a wall
                 else:
                     char = mapList[y][x].char
                     if char == WALL_CHAR:
@@ -259,13 +259,11 @@ MONSTER_AREA_CHAR = ','
 def tileForChar(char):
     if char == WALL_CHAR:
         return Tile(char, False)
-    elif char == EMPTY_CHAR or char == PLAYER_CHAR or char == GOAL_CHAR:
+    elif char == EMPTY_CHAR or char == PLAYER_CHAR or char == GOAL_CHAR or char == MONSTER_AREA_CHAR:
         return Tile(char, True)
-    elif char == MONSTER_AREA_CHAR or char == MONSTER_CHAR:
-        return Tile(EMPTY_CHAR, True)
     elif char == LEVER_CHAR:
         return Tile(WALL_CHAR, False) # Return a wall
-    elif char == DOOR_CLOSED_CHAR:
+    elif char == DOOR_CLOSED_CHAR or char == MONSTER_CHAR:
         return Tile(EMPTY_CHAR, True) # Needs to be passable
     else:
         print("found " + char)
