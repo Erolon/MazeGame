@@ -1,0 +1,6 @@
+player=1,2
+monster.1-2;1:ground=6,6
+monster.2-2;1:ground=8,2
+multi_door.1-1+2=8,5
+multi_lever.1-1=3,1
+multi_lever.1-2=2,6
