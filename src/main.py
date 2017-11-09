@@ -4,7 +4,6 @@ from player import Player
 from lever import Lever
 from door import Door
 from mapdataholder import MapDataHolder
-from flashingwall import FlashingWall
 from multilever import MultiLever
 from multidoor import MultiDoor
 from Libraries.getch import getch
@@ -43,10 +42,9 @@ def getLeverAtPoint(x, y, levers):
 def play(current_level):
     levers = []
     doors = []
-    flashing_walls = []
     multi_levers = []
     multi_doors = []
-    data_holder = MapDataHolder(levers, doors, flashing_walls, multi_levers, multi_doors)
+    data_holder = MapDataHolder(levers, doors, multi_levers, multi_doors)
 
     message = "Level " + str(current_level) + "/" + str(level_number)
     if current_level == 1:
@@ -82,12 +80,6 @@ def play(current_level):
                 x = int(values[1].split(',')[0])
                 y = int(values[1].split(',')[1])
                 data_holder.doors.append(Door(Point2D(x, y), doorNumber, isOpen=False))
-            elif line.startswith("flashing"): # flashing-1=4,3
-                values = line.split('=')
-                flashingWallNumber = int(values[0].split('-')[1])
-                x = int(values[1].split(',')[0])
-                y = int(values[1].split(',')[1])
-                data_holder.flashing_walls.append(FlashingWall(Point2D(x, y), flashing_walls, isSolid=False))
             elif line.startswith("multi_lever"):
                 id = int(line.split('-')[0].split('.')[1])
                 number = int(line.split('-')[1].split('=')[0])
@@ -109,9 +101,6 @@ def play(current_level):
                         temp += int(c)
                 levers_needed.append(temp)
                 data_holder.multi_doors.append(MultiDoor(Point2D(x, y), id, levers_needed, isOpen=False))
-
-
-    # IMPLEMENT THE FLASHING WALLS SOMETIME
 
     # Game loop
     gameRunning = True
@@ -232,7 +221,6 @@ GOAL_CHAR = '0'
 LEVER_CHAR = 'L'
 DOOR_CLOSED_CHAR = 'D'
 DOOR_OPEN_CHAR = 'd'
-FLASHING_WALL_CHAR = 'F'
 
 def tileForChar(char):
     if char == WALL_CHAR:
@@ -241,7 +229,7 @@ def tileForChar(char):
         return Tile(char, True)
     elif char == LEVER_CHAR:
         return Tile(WALL_CHAR, False) # Return a wall
-    elif char == DOOR_CLOSED_CHAR or char == FLASHING_WALL_CHAR:
+    elif char == DOOR_CLOSED_CHAR:
         return Tile(EMPTY_CHAR, True) # Needs to be passable
     else:
         print("found " + char)
