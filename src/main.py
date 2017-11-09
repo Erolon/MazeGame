@@ -40,7 +40,7 @@ def getLeverAtPoint(x, y, levers):
         if lever.location.x == x and lever.location.y == y:
             return lever
 
-def play(current_level):
+def play(current_level, message=""):
     levers = []
     doors = []
     multi_levers = []
@@ -48,7 +48,11 @@ def play(current_level):
     monsters = []
     data_holder = MapDataHolder(levers, doors, multi_levers, multi_doors, monsters)
 
-    message = "Level " + str(current_level) + "/" + str(level_number)
+    if message == "":
+        message = "Level " + str(current_level) + "/" + str(level_number)
+    else:
+        message += "\nLevel " + str(current_level) + "/" + str(level_number)
+
     if current_level == 1:
         message += " ('h' for help)"
 
@@ -75,7 +79,7 @@ def play(current_level):
                 split = numbers.split(',')
                 x = int(split[0])
                 y = int(split[1])
-                data_holder.monsters.append(Monster(Point2D(x, y), 1, 1, MONSTER_CHAR)) # read id and speed later
+                data_holder.monsters.append(Monster(Point2D(x, y), 1, 2, 1, MONSTER_CHAR)) # read id and speed later
             elif line.startswith("lever"): #lever-1=5,5
                 values = line.split('=')
                 leverNumber = int(values[0].split('-')[1])
@@ -136,13 +140,13 @@ def play(current_level):
         elif ch == 'h': # help
             help()
         elif ch == 's':
-            playerMovement(0, 1, data_holder, player, mapList)
+            playerMovement(0, 1, data_holder, player, mapList, current_level)
         elif ch == 'w':
-            playerMovement(0, -1, data_holder, player, mapList)
+            playerMovement(0, -1, data_holder, player, mapList, current_level)
         elif ch == 'a':
-            playerMovement(-1, 0, data_holder, player, mapList)
+            playerMovement(-1, 0, data_holder, player, mapList, current_level)
         elif ch == 'd':
-           playerMovement(1, 0, data_holder, player, mapList)
+           playerMovement(1, 0, data_holder, player, mapList, current_level)
 
         if isLevelCompleted(mapList, player):
             if current_level == level_number:
@@ -150,7 +154,7 @@ def play(current_level):
             else:
                 play(current_level + 1)
 
-def playerMovement(dX, dY, data_holder, player, mapList):
+def playerMovement(dX, dY, data_holder, player, mapList, current_level):
     newX = player.location.x + dX
     newY = player.location.y + dY
     if isLeverAtPoint(newX, newY, data_holder.levers):
@@ -166,6 +170,14 @@ def playerMovement(dX, dY, data_holder, player, mapList):
     elif (mapList[newY][newX].passable) and not isClosedDoorAtPoint(newX, newY, data_holder.doors):
         player.location.x = newX
         player.location.y = newY
+    updateMonsters(data_holder, newX, newY)
+    for m in data_holder.monsters:
+        if m.position.x == player.location.x and m.position.y == player.location.y:
+            play(current_level, "You died!")
+
+def updateMonsters(data_holder, playerX, playerY):
+    for m in data_holder.monsters:
+        m.move(Point2D(playerX, playerY))
 
 def help():
     os.system("clear")
