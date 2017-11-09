@@ -11,12 +11,22 @@ class Monster:
         if not self.moveFrequency == self.moveCounter:
             self.moveCounter += 1
             return
-        if destination.x > self.position.x and (mapList[self.position.y][self.position.x + self.speed].passable or self.isFlying):
+        if destination.x > self.position.x and self.isTileFreeForMonster(self.speed, 0, mapList):
             self.position.x += self.speed
-        elif destination.x < self.position.x and (mapList[self.position.y][self.position.x - self.speed].passable or self.isFlying):
+            self.moveCounter = 0
+        elif destination.x < self.position.x and self.isTileFreeForMonster(-self.speed, 0, mapList):
             self.position.x -= self.speed
-        if destination.y > self.position.y and (mapList[self.position.y + self.speed][self.position.x].passable or self.isFlying):
+            self.moveCounter = 0
+        if destination.y > self.position.y and self.isTileFreeForMonster(0, self.speed, mapList):
             self.position.y += self.speed
-        elif destination.y < self.position.y and (mapList[self.position.y - self.speed][self.position.x].passable or self.isFlying):
+            self.moveCounter = 0
+        elif destination.y < self.position.y and self.isTileFreeForMonster(0, -self.speed, mapList):
             self.position.y -= self.speed
-        self.moveCounter = 0
+            self.moveCounter = 0
+    def isTileFreeForMonster(self, dX, dY, mapList):
+        mapTile = mapList[self.position.y + dY][self.position.x + dX]
+        if mapTile.passable and mapTile.char == ',':
+            return True
+        elif self.isFlying:
+            return True
+        return False

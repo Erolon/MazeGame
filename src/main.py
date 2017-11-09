@@ -239,8 +239,8 @@ def drawMap(player, mapList, data_holder):
                     char = mapList[y][x].char
                     if char == WALL_CHAR:
                         print(Fore.RED + Back.RED + mapList[y][x].char, end='')
-                    elif char == EMPTY_CHAR:
-                        print(Fore.WHITE + Back.WHITE + mapList[y][x].char, end='')
+                    elif char == EMPTY_CHAR or MONSTER_AREA_CHAR:
+                        print(Fore.WHITE + Back.WHITE + EMPTY_CHAR, end='')
                     elif char == GOAL_CHAR:
                         print(Fore.MAGENTA + Back.MAGENTA + mapList[y][x].char, end='')
                     else:
@@ -254,11 +254,12 @@ LEVER_CHAR = 'L'
 DOOR_CLOSED_CHAR = 'D'
 DOOR_OPEN_CHAR = 'd'
 MONSTER_CHAR = 'M'
+MONSTER_AREA_CHAR = ','
 
 def tileForChar(char):
     if char == WALL_CHAR:
         return Tile(char, False)
-    elif char == EMPTY_CHAR or char == PLAYER_CHAR or char == GOAL_CHAR:
+    elif char == EMPTY_CHAR or char == PLAYER_CHAR or char == GOAL_CHAR or char == MONSTER_AREA_CHAR:
         return Tile(char, True)
     elif char == LEVER_CHAR:
         return Tile(WALL_CHAR, False) # Return a wall
