@@ -12,7 +12,7 @@ from colorama import init, Fore, Back, Style
 import os
 
 message = ""
-level_number = 9
+level_number = 10
 
 def isLevelCompleted(mapList, player):
     if mapList[player.location.y][player.location.x].char == GOAL_CHAR:
@@ -239,7 +239,7 @@ def drawMap(player, mapList, data_holder):
                     char = mapList[y][x].char
                     if char == WALL_CHAR:
                         print(Fore.RED + Back.RED + mapList[y][x].char, end='')
-                    elif char == EMPTY_CHAR or MONSTER_AREA_CHAR:
+                    elif char == EMPTY_CHAR or char == MONSTER_AREA_CHAR:
                         print(Fore.WHITE + Back.WHITE + EMPTY_CHAR, end='')
                     elif char == GOAL_CHAR:
                         print(Fore.MAGENTA + Back.MAGENTA + mapList[y][x].char, end='')
@@ -259,8 +259,10 @@ MONSTER_AREA_CHAR = ','
 def tileForChar(char):
     if char == WALL_CHAR:
         return Tile(char, False)
-    elif char == EMPTY_CHAR or char == PLAYER_CHAR or char == GOAL_CHAR or char == MONSTER_AREA_CHAR:
+    elif char == EMPTY_CHAR or char == PLAYER_CHAR or char == GOAL_CHAR:
         return Tile(char, True)
+    elif char == MONSTER_AREA_CHAR:
+        return Tile(EMPTY_CHAR, True)
     elif char == LEVER_CHAR:
         return Tile(WALL_CHAR, False) # Return a wall
     elif char == DOOR_CLOSED_CHAR:
