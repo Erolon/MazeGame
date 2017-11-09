@@ -11,12 +11,12 @@ class Monster:
         if not self.moveFrequency == self.moveCounter:
             self.moveCounter += 1
             return
-        if destination.x > self.position.x:
+        if destination.x > self.position.x and (mapList[self.position.y][self.position.x + self.speed].passable or self.isFlying):
             self.position.x += self.speed
-        elif destination.x < self.position.x:
+        elif destination.x < self.position.x and (mapList[self.position.y][self.position.x - self.speed].passable or self.isFlying):
             self.position.x -= self.speed
-        if destination.y > self.position.y:
+        if destination.y > self.position.y and (mapList[self.position.y + self.speed][self.position.x].passable or self.isFlying):
             self.position.y += self.speed
-        elif destination.y < self.position.y:
+        elif destination.y < self.position.y and (mapList[self.position.y - self.speed][self.position.x].passable or self.isFlying):
             self.position.y -= self.speed
         self.moveCounter = 0
