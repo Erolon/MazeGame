@@ -1,2 +1,2 @@
 player=1,1
-monster.1-2;1=5,3
+monster.1-2;1:ground=5,3

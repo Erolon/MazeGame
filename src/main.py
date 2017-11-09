@@ -84,9 +84,9 @@ def play(current_level, message=""):
                 speed = int(line.split(':')[0].split(';')[1])
                 isFlying = 0
                 isFlyingString = line.split('=')[0].split(':')[1]
-                if isFlyingString = "fly":
+                if isFlyingString == "fly":
                     isFlying = True
-                elif isFlyingString = "ground":
+                elif isFlyingString == "ground":
                     isFlying = False
                 data_holder.monsters.append(Monster(Point2D(x, y), speed, moveFrequency, isFlying, id, MONSTER_CHAR))
             elif line.startswith("lever"): #lever-1=5,5
