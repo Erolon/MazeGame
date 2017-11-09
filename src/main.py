@@ -6,12 +6,13 @@ from door import Door
 from mapdataholder import MapDataHolder
 from multilever import MultiLever
 from multidoor import MultiDoor
+from monster import Monster
 from Libraries.getch import getch
 from colorama import init, Fore, Back, Style
 import os
 
 message = ""
-level_number = 7
+level_number = 8
 
 def isLevelCompleted(mapList, player):
     if mapList[player.location.y][player.location.x].char == GOAL_CHAR:
@@ -44,7 +45,8 @@ def play(current_level):
     doors = []
     multi_levers = []
     multi_doors = []
-    data_holder = MapDataHolder(levers, doors, multi_levers, multi_doors)
+    monsters = []
+    data_holder = MapDataHolder(levers, doors, multi_levers, multi_doors, monsters)
 
     message = "Level " + str(current_level) + "/" + str(level_number)
     if current_level == 1:
@@ -68,6 +70,12 @@ def play(current_level):
                 first = split[0]
                 second = split[1]
                 player.location = Point2D(int(first), int(second))
+            elif line.startswith("monster"):
+                numbers = line.split('=')[1]
+                split = numbers.split(',')
+                x = int(split[0])
+                y = int(split[1])
+                data_holder.monsters.append(Monster(Point2D(x, y), 1, 1, MONSTER_CHAR)) # read id and speed later
             elif line.startswith("lever"): #lever-1=5,5
                 values = line.split('=')
                 leverNumber = int(values[0].split('-')[1])
@@ -198,18 +206,21 @@ def drawMap(player, mapList, data_holder):
                 if x == door.location.x and y == door.location.y and not wasPlayerAtLocation:
                     print(Fore.BLUE + Back.WHITE + door.char, end='')
                     wasOtherPrinted = True
-
+            for m in data_holder.monsters:
+                if x == m.position.x and y == m.position.y:
+                    print(Fore.RED + Back.WHITE + m.char, end='')
+                    wasOtherPrinted = True
 
             if not wasOtherPrinted:
                 if x == width - 1:
                     print(Fore.RED + Back.RED + mapList[y][x].char + Fore.RESET + Back.RESET) # Always a wall
                 else:
                     char = mapList[y][x].char
-                    if char == '#': # CHANGE TO USE CONSTANTS
+                    if char == WALL_CHAR:
                         print(Fore.RED + Back.RED + mapList[y][x].char, end='')
-                    elif char == '.':
+                    elif char == EMPTY_CHAR:
                         print(Fore.WHITE + Back.WHITE + mapList[y][x].char, end='')
-                    elif char == '0':
+                    elif char == GOAL_CHAR:
                         print(Fore.MAGENTA + Back.MAGENTA + mapList[y][x].char, end='')
                     else:
                         print(mapList[y][x].char, end='')
@@ -221,6 +232,7 @@ GOAL_CHAR = '0'
 LEVER_CHAR = 'L'
 DOOR_CLOSED_CHAR = 'D'
 DOOR_OPEN_CHAR = 'd'
+MONSTER_CHAR = 'M'
 
 def tileForChar(char):
     if char == WALL_CHAR:
