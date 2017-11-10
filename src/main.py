@@ -46,7 +46,8 @@ def play(current_level, message=""):
     multi_levers = []
     multi_doors = []
     monsters = []
-    data_holder = MapDataHolder(levers, doors, multi_levers, multi_doors, monsters)
+    cannons = []
+    data_holder = MapDataHolder(levers, doors, multi_levers, multi_doors, monsters, cannons)
 
     if message == "":
         message = "Level " + str(current_level) + "/" + str(level_number)
@@ -231,6 +232,10 @@ def drawMap(player, mapList, data_holder):
                 if x == m.position.x and y == m.position.y:
                     print(Fore.RED + Back.WHITE + m.char, end='')
                     wasOtherPrinted = True
+            for cannon in data_holder.cannons:
+                if x == cannon.position.x and y == cannon.position.y:
+                    print(Fore.MAGENTA + Back.WHITE + cannon.char, end='')
+                    wasOtherPrinted = True
 
             if not wasOtherPrinted:
                 if x == width - 1:
@@ -255,6 +260,8 @@ DOOR_CLOSED_CHAR = 'D'
 DOOR_OPEN_CHAR = 'd'
 MONSTER_CHAR = 'M'
 MONSTER_AREA_CHAR = ','
+CANNON_CHAR = 'Q'
+AMMO_CHAR = 'o'
 
 def tileForChar(char):
     if char == WALL_CHAR:
