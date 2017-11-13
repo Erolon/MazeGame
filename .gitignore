@@ -1,5 +1,4 @@
-/.idea
-/.vscode
-/src/.vscode
-/src/.idea
-/src/__pycache__
+.vscode
+.idea
+.__pycache__
+.DS_Store
