@@ -1,4 +1,3 @@
-from point2d import Point2D
 
 class Door:
     def __init__(self, location, id, char='', isOpen=False):
