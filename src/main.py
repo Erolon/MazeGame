@@ -7,6 +7,7 @@ from mapdataholder import MapDataHolder
 from multilever import MultiLever
 from multidoor import MultiDoor
 from monster import Monster
+from mine import Mine
 from Libraries.getch import getch
 from colorama import init, Fore, Back, Style
 import os
@@ -47,7 +48,8 @@ def play(current_level, message=""):
     multi_doors = []
     monsters = []
     cannons = []
-    data_holder = MapDataHolder(levers, doors, multi_levers, multi_doors, monsters, cannons)
+    mines = []
+    data_holder = MapDataHolder(levers, doors, multi_levers, multi_doors, monsters, cannons, mines)
 
     if message == "":
         message = "Level " + str(current_level) + "/" + str(level_number)
@@ -90,6 +92,12 @@ def play(current_level, message=""):
                 elif isFlyingString == "ground":
                     isFlying = False
                 data_holder.monsters.append(Monster(Point2D(x, y), speed, moveFrequency, isFlying, id, MONSTER_CHAR))
+            elif line.startswith("mine"):
+                numbers = line.split('=')[1]
+                split = numbers.split(',')
+                first = int(split[0])
+                second = int(split[1])
+                data_holder.monsters.append(Mine(True, Point2D(first, second), MINE_CHAR, 1)) # CHANGE ID LATER
             elif line.startswith("lever"): #lever-1=5,5
                 values = line.split('=')
                 leverNumber = int(values[0].split('-')[1])
@@ -236,6 +244,10 @@ def drawMap(player, mapList, data_holder):
                 if x == cannon.position.x and y == cannon.position.y:
                     print(Fore.MAGENTA + Back.WHITE + cannon.char, end='')
                     wasOtherPrinted = True
+            for m in data_holder.mines:
+                if x == m.position.x and y == m.position.y:
+                    print(Fore.LIGHTRED_EX + Back.WHITE + m.char, end='')
+                    wasOtherPrinted = True
 
             if not wasOtherPrinted:
                 if x == width - 1:
@@ -262,6 +274,7 @@ MONSTER_CHAR = 'M'
 MONSTER_AREA_CHAR = ','
 CANNON_CHAR = 'Q'
 AMMO_CHAR = 'o'
+MINE_CHAR = 'O'
 
 def tileForChar(char):
     if char == WALL_CHAR:
