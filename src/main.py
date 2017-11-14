@@ -247,7 +247,7 @@ def drawMap(player, mapList, data_holder):
                     print(Fore.MAGENTA + Back.WHITE + cannon.char, end='')
                     wasOtherPrinted = True
             for m in data_holder.mines:
-                if x == m.position.x and y == m.position.y:
+                if x == m.position.x and y == m.position.y and m.alive:
                     print(Fore.LIGHTRED_EX + Back.WHITE + m.char, end='')
                     wasOtherPrinted = True
 

@@ -4,3 +4,6 @@ class Mine:
         self.position = position
         self.char = char
         self.id = id
+        self.alive = True
+    def kill(self):
+        self.alive = False

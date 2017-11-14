@@ -38,3 +38,4 @@ class Monster:
         for m in data_holder.mines:
             if m.position.x == x and m.position.y == y:
                 self.alive = False
+                m.kill()
