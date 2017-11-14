@@ -188,14 +188,16 @@ def playerMovement(dX, dY, data_holder, player, mapList, current_level):
     elif (mapList[newY][newX].passable) and not isClosedDoorAtPoint(newX, newY, data_holder.doors) and not isClosedDoorAtPoint(newX, newY, data_holder.multi_doors):
         player.location.x = newX
         player.location.y = newY
+    elif mapList[newY][newX].char == MINE_CHAR:
+        play(current_level, "You were killed by a mine!")
     updateMonsters(data_holder, mapList, newX, newY)
     for m in data_holder.monsters:
-        if m.position.x == player.location.x and m.position.y == player.location.y:
-            play(current_level, "You died!")
+        if m.position.x == player.location.x and m.position.y == player.location.y and m.alive:
+            play(current_level, "You were killed by a monster!")
 
 def updateMonsters(data_holder, mapList, playerX, playerY):
     for m in data_holder.monsters:
-        m.move(Point2D(playerX, playerY), mapList)
+        m.move(Point2D(playerX, playerY), mapList, data_holder)
 
 def help():
     os.system("clear")
@@ -237,7 +239,7 @@ def drawMap(player, mapList, data_holder):
                     print(Fore.BLUE + Back.WHITE + door.char, end='')
                     wasOtherPrinted = True
             for m in data_holder.monsters:
-                if x == m.position.x and y == m.position.y:
+                if x == m.position.x and y == m.position.y and m.alive:
                     print(Fore.RED + Back.WHITE + m.char, end='')
                     wasOtherPrinted = True
             for cannon in data_holder.cannons:
@@ -287,6 +289,8 @@ def tileForChar(char):
         return Tile(EMPTY_CHAR, True) # Needs to be passable
     elif char == MONSTER_CHAR:
         return Tile(MONSTER_AREA_CHAR, True)
+    elif char == MINE_CHAR:
+        return Tile(MINE_CHAR, True)
     else:
         print("found " + char)
 
