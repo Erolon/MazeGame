@@ -13,7 +13,7 @@ from colorama import init, Fore, Back, Style
 import os
 
 message = ""
-level_number = 10
+level_number = 11
 
 def isLevelCompleted(mapList, player):
     if mapList[player.location.y][player.location.x].char == GOAL_CHAR:
@@ -97,7 +97,7 @@ def play(current_level, message=""):
                 split = numbers.split(',')
                 first = int(split[0])
                 second = int(split[1])
-                data_holder.monsters.append(Mine(True, Point2D(first, second), MINE_CHAR, 1)) # CHANGE ID LATER
+                data_holder.mines.append(Mine(True, Point2D(first, second), MINE_CHAR, 1)) # CHANGE ID LATER
             elif line.startswith("lever"): #lever-1=5,5
                 values = line.split('=')
                 leverNumber = int(values[0].split('-')[1])
