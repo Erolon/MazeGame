@@ -97,7 +97,7 @@ def play(current_level, message=""):
                 split = numbers.split(',')
                 first = int(split[0])
                 second = int(split[1])
-                data_holder.mines.append(Mine(True, Point2D(first, second), MINE_CHAR, 1)) # CHANGE ID LATER
+                data_holder.mines.append(Mine(True, Point2D(first, second), MINE_CHAR))
             elif line.startswith("lever"): #lever-1=5,5
                 values = line.split('=')
                 leverNumber = int(values[0].split('-')[1])
@@ -287,10 +287,8 @@ def tileForChar(char):
         return Tile(WALL_CHAR, False) # Return a wall
     elif char == DOOR_CLOSED_CHAR:
         return Tile(EMPTY_CHAR, True) # Needs to be passable
-    elif char == MONSTER_CHAR:
+    elif char == MONSTER_CHAR or char == MINE_CHAR:
         return Tile(MONSTER_AREA_CHAR, True)
-    elif char == MINE_CHAR:
-        return Tile(MINE_CHAR, True)
     else:
         print("found " + char)
 

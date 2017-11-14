@@ -1,5 +1,8 @@
 player=1,1
 mine=3,2
 mine=2,2
-mine=4,2
+mine=1,2
 monster.1-2;1:ground=6,4
+monster.2-2;1:ground=5,4
+monster.3-2;1:ground=4,4
+
