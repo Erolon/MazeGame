@@ -41,6 +41,12 @@ def getLeverAtPoint(x, y, levers):
         if lever.location.x == x and lever.location.y == y:
             return lever
 
+def isItemAtPoint(x, y, items):
+    for i in items:
+        if i.location.x == x and i.location.y == y:
+            return True
+    return False
+
 def play(current_level, message=""):
     levers = []
     doors = []
@@ -185,11 +191,11 @@ def playerMovement(dX, dY, data_holder, player, mapList, current_level):
         levers_needed = data_holder.multi_doors[lever.id - 1].levers_needed
         if all(i is 0 for i in levers_needed):
             data_holder.multi_doors[lever.id - 1].switch()
+    elif isItemAtPoint(newX, newY, data_holder.mines):
+        play(current_level, "You were killed by a mine!")
     elif (mapList[newY][newX].passable) and not isClosedDoorAtPoint(newX, newY, data_holder.doors) and not isClosedDoorAtPoint(newX, newY, data_holder.multi_doors):
         player.location.x = newX
         player.location.y = newY
-    elif mapList[newY][newX].char == MINE_CHAR:
-        play(current_level, "You were killed by a mine!")
     updateMonsters(data_holder, mapList, newX, newY)
     for m in data_holder.monsters:
         if m.position.x == player.location.x and m.position.y == player.location.y and m.alive:
@@ -247,7 +253,7 @@ def drawMap(player, mapList, data_holder):
                     print(Fore.MAGENTA + Back.WHITE + cannon.char, end='')
                     wasOtherPrinted = True
             for m in data_holder.mines:
-                if x == m.position.x and y == m.position.y and m.alive:
+                if x == m.location.x and y == m.location.y and m.alive:
                     print(Fore.LIGHTRED_EX + Back.WHITE + m.char, end='')
                     wasOtherPrinted = True
 

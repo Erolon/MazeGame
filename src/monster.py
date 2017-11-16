@@ -36,6 +36,6 @@ class Monster:
         return False
     def checkForMines(self, x, y, data_holder):
         for m in data_holder.mines:
-            if m.position.x == x and m.position.y == y and m.alive:
+            if m.location.x == x and m.location.y == y and m.alive:
                 self.alive = False
                 m.kill()

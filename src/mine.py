@@ -1,7 +1,7 @@
 class Mine:
-    def __init__(self, isPlaced, position, char):
+    def __init__(self, isPlaced, location, char):
         self.isPlaced = isPlaced
-        self.position = position
+        self.location = location
         self.char = char
         self.alive = True
     def kill(self):
