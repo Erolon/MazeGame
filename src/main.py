@@ -24,22 +24,16 @@ def main():
     init(autoreset=True)
     play(1)
 
-def isLeverAtPoint(x, y, levers):
-    for lever in levers:
-        if lever.location.x == x and lever.location.y == y:
-            return True
-    return False
-
 def isClosedDoorAtPoint(x, y, doors):
     for door in doors:
         if door.location.x == x and door.location.y == y and not door.isOpen:
             return True
     return False
 
-def getLeverAtPoint(x, y, levers):
-    for lever in levers:
-        if lever.location.x == x and lever.location.y == y:
-            return lever
+def getItemAtPoint(x, y, items):
+    for i in items:
+        if i.location.x == x and i.location.y == y:
+            return i
 
 def isItemAtPoint(x, y, items):
     for i in items:
@@ -103,7 +97,7 @@ def play(current_level, message=""):
                 split = numbers.split(',')
                 first = int(split[0])
                 second = int(split[1])
-                data_holder.mines.append(Mine(True, Point2D(first, second), MINE_CHAR))
+                data_holder.mines.append(Mine(Point2D(first, second), MINE_CHAR))
             elif line.startswith("lever"): #lever-1=5,5
                 values = line.split('=')
                 leverNumber = int(values[0].split('-')[1])
@@ -181,17 +175,17 @@ def play(current_level, message=""):
 def playerMovement(dX, dY, data_holder, player, mapList, current_level):
     newX = player.location.x + dX
     newY = player.location.y + dY
-    if isLeverAtPoint(newX, newY, data_holder.levers):
-        lever = getLeverAtPoint(newX, newY, data_holder.levers)
+    if isItemAtPoint(newX, newY, data_holder.levers):
+        lever = getItemAtPoint(newX, newY, data_holder.levers)
         data_holder.doors[lever.id - 1].switch()
-    elif isLeverAtPoint(newX, newY, data_holder.multi_levers):
-        lever = getLeverAtPoint(newX, newY, data_holder.multi_levers)
+    elif isItemAtPoint(newX, newY, data_holder.multi_levers):
+        lever = getItemAtPoint(newX, newY, data_holder.multi_levers)
         lever.switch()
         data_holder.multi_doors[lever.id - 1].levers_needed[lever.number - 1] = 0
         levers_needed = data_holder.multi_doors[lever.id - 1].levers_needed
         if all(i is 0 for i in levers_needed):
             data_holder.multi_doors[lever.id - 1].switch()
-    elif isItemAtPoint(newX, newY, data_holder.mines):
+    elif isItemAtPoint(newX, newY, data_holder.mines) and getItemAtPoint(newX, newY, data_holder.mines).alive:
         play(current_level, "You were killed by a mine!")
     elif (mapList[newY][newX].passable) and not isClosedDoorAtPoint(newX, newY, data_holder.doors) and not isClosedDoorAtPoint(newX, newY, data_holder.multi_doors):
         player.location.x = newX
