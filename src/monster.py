@@ -31,7 +31,7 @@ class Monster:
         newX = self.position.x + dX
         newY = self.position.y + dY
         mapTile = mapList[self.position.y + dY][self.position.x + dX]
-        if mapTile.passable and mapTile.char == ',' or mapTile.char == 'O' and not self.checkForMonster(newX, newY, data_holder.monsters):
+        if mapTile.passable and (mapTile.char == ',' or mapTile.char == 'O') and not self.checkForMonster(newX, newY, data_holder.monsters):
             return True
         elif self.isFlying and not self.checkForMonster(newX, newY, data_holder.monsters):
             return True
