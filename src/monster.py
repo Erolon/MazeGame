@@ -46,4 +46,3 @@ class Monster:
             if i.position.x == x and i.position.y == y:
                 return True
         return False
-
