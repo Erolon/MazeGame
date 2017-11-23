@@ -13,7 +13,7 @@ from colorama import init, Fore, Back, Style
 import os
 
 message = ""
-level_number = 11
+level_number = 12
 
 def isLevelCompleted(mapList, player):
     if mapList[player.location.y][player.location.x].char == GOAL_CHAR:
