@@ -200,7 +200,8 @@ def updateMonsters(data_holder, mapList, playerX, playerY):
 
 def help():
     os.system("clear")
-    print("-- Controls --\n- Use 'wasd' to move\n- Exit the game with 'q'\nExperiment with objects and try to reach the purple goal!")
+    print("-- Controls --\n- Use 'wasd' to move\n- Exit the game with 'q'\n\nL = Lever\n" \
+          "D = Door\nM = Monster\nO = Mine\n\nMoving towards walls will trigger monster movement!")
     getch()
 
 def end(player, mapList, data_holder):
