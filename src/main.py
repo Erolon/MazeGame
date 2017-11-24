@@ -253,8 +253,10 @@ def drawMap(player, mapList, data_holder):
                     char = mapList[y][x].char
                     if char == WALL_CHAR:
                         print(Fore.RED + Back.RED + mapList[y][x].char, end='')
-                    elif char == EMPTY_CHAR or char == MONSTER_AREA_CHAR:
+                    elif char == EMPTY_CHAR:
                         print(Fore.WHITE + Back.WHITE + EMPTY_CHAR, end='')
+                    elif char == MONSTER_AREA_CHAR:
+                        print(Back.WHITE + '.', end='')
                     elif char == GOAL_CHAR:
                         print(Fore.MAGENTA + Back.MAGENTA + mapList[y][x].char, end='')
                     else:
