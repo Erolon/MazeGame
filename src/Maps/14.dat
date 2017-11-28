@@ -6,7 +6,6 @@ multi_door.1-1+2+3=18,5
 mine=13,4
 monster.1-2;1:ground=4,3
 monster.1-2;1:ground=9,4
-monster.1-2;1:ground=9,4
 monster.1-2;1:ground=6,9
 monster.1-2;1:ground=7,9
 monster.1-2;1:ground=17,9
